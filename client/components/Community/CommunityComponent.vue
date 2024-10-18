@@ -17,6 +17,8 @@ const deleteCommunity = async () => {
   emit("refreshPosts");
 };
 
+console.log(props.community);
+
 // const getGoogleID = (link: string) => {
 //   return link.split("/")[5];
 // };
@@ -26,6 +28,9 @@ const deleteCommunity = async () => {
   <p class="title">{{ props.community.title }}</p>
   <p>Description: {{ props.community.description }}</p>
   <div class="base">
+    <menu v-if="props.community.author == currentUsername">
+      <li><button class="button-error btn-small pure-button" @click="deleteCommunity">Delete</button></li>
+    </menu>
     <article class="timestamp">
       <p v-if="props.community.dateCreated !== props.community.dateUpdated">Edited on: {{ formatDate(props.community.dateUpdated) }}</p>
       <p v-else>Created on: {{ formatDate(props.community.dateCreated) }}</p>
@@ -38,7 +43,7 @@ p {
   margin: 0em;
 }
 
-.author {
+.title {
   font-weight: bold;
   font-size: 1.2em;
 }

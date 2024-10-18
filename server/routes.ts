@@ -163,13 +163,13 @@ class Routes {
   }
 
   @Router.get("/communities")
+  @Router.validate(z.object({ title: z.string().optional() }))
   async getCommunities(title?: string) {
     if (title) {
       const community = await Communiting.getCommunityByTitle(title);
       return Responses.community(community);
     } else {
       const communities = await Communiting.getCommunities();
-
       return Responses.communities(communities);
     }
   }
