@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 
 import { Router, getExpressRouter } from "./framework/router";
 
-import { Authing, Friending, Posting, Sessioning } from "./app";
+import { Authing, Communiting, Favoriting, Featuring, Feeding, Friending, Posting, Sessioning } from "./app";
 import { PostOptions } from "./concepts/posting";
 import { SessionDoc } from "./concepts/sessioning";
 import Responses from "./responses";
@@ -151,6 +151,130 @@ class Routes {
     const user = Sessioning.getUser(session);
     const fromOid = (await Authing.getUserByUsername(from))._id;
     return await Friending.rejectRequest(fromOid, user);
+  }
+
+  // Communiting
+
+  @Router.post("/communities")
+  async createCommunity(session: SessionDoc, title: string, description: string) {
+    const user = Sessioning.getUser(session);
+    const created = await Communiting.create(user, title, description);
+    return { msg: created.msg, community: await Responses.community(created.community) };
+  }
+
+  @Router.get("/communities")
+  async getCommunities(title?: string) {
+    if (title) {
+      const community = await Communiting.getCommunityByTitle(title);
+      return Responses.community(community);
+    } else {
+      const communities = await Communiting.getCommunities();
+
+      return Responses.communities(communities);
+    }
+  }
+
+  @Router.delete("/communities/:id")
+  async deleteCommunity(session: SessionDoc, id: string) {
+    const user = Sessioning.getUser(session);
+    const oid = new ObjectId(id);
+    await Communiting.assertAuthorIsUser(oid, user);
+    await Feeding.deleteFeed(oid);
+    return await Communiting.delete(oid);
+  }
+
+  @Router.patch("/communities/:id/join")
+  async joinCommunity(session: SessionDoc, id: string) {
+    const user = Sessioning.getUser(session);
+    const oid = new ObjectId(id);
+    return await Communiting.join(user, oid);
+  }
+
+  @Router.patch("/communities/:id/leave")
+  async leaveCommunity(session: SessionDoc, id: string) {
+    const user = Sessioning.getUser(session);
+    const oid = new ObjectId(id);
+    return await Communiting.leave(user, oid);
+  }
+
+  @Router.get("/communities/:id/items")
+  async getCommunityItems(id: string) {
+    const oid = new ObjectId(id);
+
+    await Communiting.assertCommunityExists(oid);
+
+    return await Feeding.getItems(oid);
+  }
+
+  @Router.post("/communities/:id/items/")
+  async addCommunityItem(id: string, itemID: string) {
+    const communityObjectID = new ObjectId(id);
+    const itemObjectID = new ObjectId(itemID);
+
+    await Communiting.assertCommunityExists(communityObjectID);
+
+    return await Feeding.addItem(itemObjectID, communityObjectID);
+  }
+
+  @Router.delete("/communities/:id/items/:itemID")
+  async deleteCommunityItem(id: string, itemID: string) {
+    const communityObjectID = new ObjectId(id);
+    const itemObjectID = new ObjectId(itemID);
+
+    await Communiting.assertCommunityExists(communityObjectID);
+
+    return await Feeding.deleteItem(itemObjectID, communityObjectID);
+  }
+
+  // Favoriting
+  @Router.post("/posts/:id/favorites")
+  async favoriteItem(session: SessionDoc, id: string) {
+    const user = Sessioning.getUser(session);
+    const oid = new ObjectId(id);
+
+    return await Favoriting.favorite(user, oid);
+  }
+
+  @Router.delete("/posts/:id/favorites")
+  async unfavoriteItem(session: SessionDoc, id: string) {
+    const user = Sessioning.getUser(session);
+    const oid = new ObjectId(id);
+
+    return await Favoriting.unfavorite(user, oid);
+  }
+
+  @Router.get("/posts/:id/favorites/")
+  async getNumFavorites(id: string) {
+    const oid = new ObjectId(id);
+
+    return await Favoriting.getNumFavorites(oid);
+  }
+
+  @Router.get("/users/:username/favorites")
+  async getFavorites(username: string) {
+    const oid = (await Authing.getUserByUsername(username))._id;
+
+    return await Favoriting.getFavorites(oid);
+  }
+
+  // Featuring
+  @Router.get("/posts/featured")
+  async getFeatured() {
+    return await Featuring.getFeatured();
+  }
+
+  @Router.post("/posts/featured")
+  async addFeatured(item: string, attention: string) {
+    const itemID = new ObjectId(item);
+
+    return await Featuring.promote(itemID, +attention);
+  }
+
+  @Router.delete("/posts/featured/:item")
+  async deleteFeatured(item: string, attention: string) {
+    const itemID = new ObjectId(item);
+
+    return await Featuring.depromote(itemID, +attention);
   }
 }
 
