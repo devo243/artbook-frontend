@@ -5,7 +5,7 @@ import { storeToRefs } from "pinia";
 import { fetchy } from "../../utils/fetchy";
 
 const props = defineProps(["community"]);
-const emit = defineEmits(["editPost", "refreshPosts"]);
+const emit = defineEmits(["refreshCommunities"]);
 const { currentUsername } = storeToRefs(useUserStore());
 
 const deleteCommunity = async () => {
@@ -14,7 +14,23 @@ const deleteCommunity = async () => {
   } catch {
     return;
   }
-  emit("refreshPosts");
+  emit("refreshCommunities");
+};
+
+const joinCommunity = async () => {
+  try {
+    await fetchy(`/api/communities/${props.community._id}/join`, "PATCH");
+  } catch {
+    return;
+  }
+};
+
+const leaveCommunity = async () => {
+  try {
+    await fetchy(`/api/communities/${props.community._id}/leave`, "PATCH");
+  } catch {
+    return;
+  }
 };
 
 console.log(props.community);
@@ -29,6 +45,8 @@ console.log(props.community);
   <p>Description: {{ props.community.description }}</p>
   <div class="base">
     <menu v-if="props.community.author == currentUsername">
+      <li><button class="btn-small pure-button" @click="joinCommunity">Join</button></li>
+      <li><button class="btn-small pure-button" @click="leaveCommunity">Leave</button></li>
       <li><button class="button-error btn-small pure-button" @click="deleteCommunity">Delete</button></li>
     </menu>
     <article class="timestamp">
