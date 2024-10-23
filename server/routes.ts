@@ -192,14 +192,14 @@ class Routes {
     return await Communiting.delete(oid);
   }
 
-  @Router.patch("/communities/:id/join")
+  @Router.post("/communities/:id/join")
   async joinCommunity(session: SessionDoc, id: string) {
     const user = Sessioning.getUser(session);
     const oid = new ObjectId(id);
     return await Communiting.join(user, oid);
   }
 
-  @Router.patch("/communities/:id/leave")
+  @Router.delete("/communities/:id/leave")
   async leaveCommunity(session: SessionDoc, id: string) {
     const user = Sessioning.getUser(session);
     const oid = new ObjectId(id);
@@ -235,6 +235,13 @@ class Routes {
     await Communiting.assertCommunityExists(communityObjectID);
 
     return await Feeding.deleteItemFromFeed(itemObjectID, communityObjectID);
+  }
+
+  @Router.get("/users/:username/communities")
+  async getUserCommunities(username: string) {
+    const oid =  (await Authing.getUserByUsername(username))._id;
+
+    return await Communiting.getUserCommunities(oid);
   }
 
   // Favoriting

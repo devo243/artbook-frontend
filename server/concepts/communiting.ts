@@ -8,7 +8,11 @@ export interface CommunityDoc extends BaseDoc {
   title: string;
   description: string;
   imageIconURL: string;
-  members: ObjectId[];
+}
+
+export interface CommunityMembersDoc extends BaseDoc {
+  community: ObjectId;
+  member: ObjectId;
 }
 
 /**
@@ -16,22 +20,26 @@ export interface CommunityDoc extends BaseDoc {
  */
 export default class CommunitingConcept {
   public readonly communities: DocCollection<CommunityDoc>;
+  public readonly communityMembers: DocCollection<CommunityMembersDoc>;
 
   constructor(collectionName: string) {
     this.communities = new DocCollection<CommunityDoc>(collectionName);
+    this.communityMembers = new DocCollection<CommunityMembersDoc>(collectionName + '_members')
   }
 
   async create(author: ObjectId, title: string, description: string, imageIconURL: string) {
     await this.assertCommunityNotExists(title);
 
-    const newMembersArray = <ObjectId[]>[author];
-    const _id = await this.communities.createOne({ author, title, description, members: newMembersArray, imageIconURL: imageIconURL });
+    const _id = await this.communities.createOne({ author, title, description, imageIconURL: imageIconURL });
+
+    await this.communityMembers.createOne({ community: _id, member: author });
 
     return { msg: "Community Succesfully Created!", community: await this.communities.readOne({ _id }) };
   }
 
   async delete(_id: ObjectId) {
     await this.communities.deleteOne({ _id });
+    await this.communityMembers.deleteMany({ community: _id })
     return { msg: "Community Succesfully Deleted!" };
   }
 
@@ -48,39 +56,31 @@ export default class CommunitingConcept {
   }
 
   async getNumMembers(_id: ObjectId) {
-    const community = await this.getCommunityByID(_id);
+    const members = await this.communityMembers.readMany({ community: _id });
 
-    if (!community) {
+    if (!members) {
       throw new NotFoundError(`Community ${_id} doesn't exist!`);
     }
-
-    const members = community.members;
 
     return { numMembers: members.length };
   }
 
   async join(user: ObjectId, _id: ObjectId) {
-    const community = await this.getCommunityByID(_id);
-
     await this.assertUserNotInCommunity(_id, user);
 
-    const newMembersArray = community?.members;
-    newMembersArray?.push(user);
-
-    await this.communities.partialUpdateOne({ _id }, { members: newMembersArray });
+    await this.communityMembers.createOne({ community: _id, member: user});
     return { msg: "A user has joined the community!" };
   }
 
   async leave(user: ObjectId, _id: ObjectId) {
-    const community = await this.getCommunityByID(_id);
-
     await this.assertUserInCommunity(_id, user);
 
-    const oldMembersArray = community?.members;
-    const newMembersArray = oldMembersArray?.filter((e) => e.toString() !== user.toString());
-
-    await this.communities.partialUpdateOne({ _id }, { members: newMembersArray });
+    await this.communityMembers.deleteOne({ community: _id, member: user});
     return { msg: "A user has left the community!" };
+  }
+
+  async getUserCommunities(user: ObjectId) {
+    return await this.communityMembers.readMany({ member: user})
   }
 
   private checkObjectIdInArray(_id: ObjectId, arr: ObjectId[]) {
@@ -112,9 +112,9 @@ export default class CommunitingConcept {
       throw new NotFoundError(`Community ${_id} doesn't exist!`);
     }
 
-    const members = community.members;
+    const member = await this.communityMembers.readOne({ community: _id, member: user});
 
-    if (!this.checkObjectIdInArray(user, members)) {
+    if (!member) {
       throw new CommunityUserNoMatchError(user, _id);
     }
   }
@@ -126,9 +126,9 @@ export default class CommunitingConcept {
       throw new NotFoundError(`Community ${_id} doesn't exist!`);
     }
 
-    const members = community.members;
+    const member = await this.communityMembers.readOne({ community: _id, member: user});
 
-    if (this.checkObjectIdInArray(user, members)) {
+    if (member) {
       throw new CommunityMemberExistsError(user, _id);
     }
   }
