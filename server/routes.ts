@@ -83,6 +83,14 @@ class Routes {
     return Responses.posts(posts);
   }
 
+  @Router.get("/posts/:id")
+  async getPostByID(id: string) {
+    const oid = new ObjectId(id);
+    const post = await Posting.getByID(oid);
+
+    return Responses.post(post);
+  }
+
   @Router.post("/posts")
   async createPost(session: SessionDoc, content: string, options?: PostOptions) {
     const user = Sessioning.getUser(session);
