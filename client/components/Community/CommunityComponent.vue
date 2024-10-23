@@ -43,6 +43,7 @@ console.log(props.community);
 <template>
   <p class="title">{{ props.community.title }}</p>
   <p>Description: {{ props.community.description }}</p>
+  <RouterLink :to="'/community/' + props.community.title" class="link">Click here to go to community!</RouterLink>
   <div class="base">
     <menu v-if="props.community.author == currentUsername">
       <li><button class="btn-small pure-button" @click="joinCommunity">Join</button></li>

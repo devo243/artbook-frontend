@@ -61,8 +61,11 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-    <CommunityBannerComponent/>
+    <CommunityBannerComponent :community="community.value"/>
     <article v-for="post in posts" :key="post._id">
         <PostComponent :post="post"/>
     </article>
 </template>
+
+<style>
+</style>
