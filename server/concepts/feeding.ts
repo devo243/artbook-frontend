@@ -25,11 +25,16 @@ export default class FeedingConcept {
     return { msg: "An item has been added to a feed!" };
   }
 
-  async deleteItem(item: ObjectId, feed: ObjectId) {
+  async deleteItemFromFeed(item: ObjectId, feed?: ObjectId) {
     await this.assertItemInFeed(item, feed);
 
-    await this.feeds.deleteOne({ feed: feed, item: item });
-    return { msg: "An item has been deleted from the community!" };
+    if (feed) {
+      await this.feeds.deleteOne({ feed: feed, item: item });
+      return { msg: "An item has been deleted from the community!" };
+    } else {
+      await this.feeds.deleteMany({ item: item });
+      return { msg: "An item has been deleted from all feeds!"}
+    }
   }
 
   async deleteFeed(feed: ObjectId) {
@@ -40,16 +45,18 @@ export default class FeedingConcept {
     return await this.feeds.readMany({ feed: feed });
   }
 
-  async assertItemInFeed(_id: ObjectId, itemId: ObjectId) {
-    const item = await this.feeds.readOne({ community: _id, item: itemId });
+  async assertItemInFeed(itemId: ObjectId, _id?: ObjectId) {
+    if (_id) {
+      const item = await this.feeds.readOne({ feed: _id, item: itemId });
 
-    if (!item) {
-      throw new FeedItemNoMatchError(itemId, _id);
+      if (!item) {
+        throw new FeedItemNoMatchError(itemId, _id);
+      }
     }
   }
 
-  async assertItemNotInFeed(_id: ObjectId, itemId: ObjectId) {
-    const item = await this.feeds.readOne({ community: _id, item: itemId });
+  async assertItemNotInFeed(itemId: ObjectId, _id: ObjectId) {
+    const item = await this.feeds.readOne({ feed: _id, item: itemId });
 
     if (item) {
       throw new FeedItemExistsError(itemId, _id);

@@ -103,6 +103,7 @@ class Routes {
     const user = Sessioning.getUser(session);
     const oid = new ObjectId(id);
     await Posting.assertAuthorIsUser(oid, user);
+    await Feeding.deleteItemFromFeed(oid);
     return Posting.delete(oid);
   }
 
@@ -223,7 +224,7 @@ class Routes {
 
     await Communiting.assertCommunityExists(communityObjectID);
 
-    return await Feeding.deleteItem(itemObjectID, communityObjectID);
+    return await Feeding.deleteItemFromFeed(itemObjectID, communityObjectID);
   }
 
   // Favoriting
