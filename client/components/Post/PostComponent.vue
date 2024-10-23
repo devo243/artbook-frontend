@@ -16,16 +16,12 @@ const deletePost = async () => {
   }
   emit("refreshPosts");
 };
-
-const getGoogleID = (link: string) => {
-  return link.split("/")[5];
-};
 </script>
 
 <template>
   <p class="author">{{ props.post.author }}</p>
-  <p>This is the google file id {{ getGoogleID(props.post.content) }}</p>
-  <img v-bind:src="'https://drive.google.com/thumbnail?id=' + getGoogleID(props.post.content) + '&sz=w1000'" />
+  <p>Source of the image is {{ props.post.content }}</p>
+  <img v-bind:src="props.post.content" />
   <div class="base">
     <menu v-if="props.post.author == currentUsername">
       <li><button class="btn-small pure-button" @click="emit('editPost', props.post._id)">Edit</button></li>

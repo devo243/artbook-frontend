@@ -7,7 +7,7 @@ export interface CommunityDoc extends BaseDoc {
   author: ObjectId;
   title: string;
   description: string;
-  imageBannerURL: string;
+  imageIconURL: string;
   members: ObjectId[];
 }
 
@@ -21,11 +21,11 @@ export default class CommunitingConcept {
     this.communities = new DocCollection<CommunityDoc>(collectionName);
   }
 
-  async create(author: ObjectId, title: string, description: string, imageBannerURL: string) {
+  async create(author: ObjectId, title: string, description: string, imageIconURL: string) {
     await this.assertCommunityNotExists(title);
 
     const newMembersArray = <ObjectId[]>[author];
-    const _id = await this.communities.createOne({ author, title, description, members: newMembersArray, imageBannerURL: imageBannerURL });
+    const _id = await this.communities.createOne({ author, title, description, members: newMembersArray, imageIconURL: imageIconURL });
 
     return { msg: "Community Succesfully Created!", community: await this.communities.readOne({ _id }) };
   }

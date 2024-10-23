@@ -165,9 +165,9 @@ class Routes {
   // Communiting
 
   @Router.post("/communities")
-  async createCommunity(session: SessionDoc, title: string, description: string, imageBannerURL: string) {
+  async createCommunity(session: SessionDoc, title: string, description: string, imageIconURL: string) {
     const user = Sessioning.getUser(session);
-    const created = await Communiting.create(user, title, description, imageBannerURL);
+    const created = await Communiting.create(user, title, description, imageIconURL);
     return { msg: created.msg, community: await Responses.community(created.community) };
   }
 
@@ -212,7 +212,9 @@ class Routes {
 
     await Communiting.assertCommunityExists(oid);
 
-    return await Feeding.getItems(oid);
+    const feedItems = await Feeding.getItems(oid);
+
+    return feedItems.map((item) => item.item);
   }
 
   @Router.post("/communities/:id/items/")
