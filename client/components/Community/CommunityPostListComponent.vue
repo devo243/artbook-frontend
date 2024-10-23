@@ -1,8 +1,7 @@
-<script lang="ts">
-import PostComponent from "@/components/Post/PostComponent.vue";
+<script setup lang="ts">
 import { fetchy } from '@/utils/fetchy';
 import { onBeforeMount, ref } from 'vue';
-import CommunityBannerComponent from "./CommunityBannerComponent.vue";
+import CommunityBannerComponent from './CommunityBannerComponent.vue';
 
 const props = defineProps(["title"]);
 
@@ -41,9 +40,10 @@ async function getCommunityPosts(postIds: string[]) {
 
 async function getCommunity(title: string) {
     let response;
+    let query: Record<string, string> = title !== undefined ? { title } : {};
     try {
         response = await fetchy(`/api/communities`, "GET",  {
-            body: { title: title},
+            query,
         })
     } catch (_) {
         return;
@@ -54,17 +54,21 @@ async function getCommunity(title: string) {
 
 onBeforeMount(async () => {
     await getCommunity(props.title);
-    const postIds = await getCommunityPostIDs(community.value._id);
-    await getCommunityPosts(postIds);
+    // const postIds = await getCommunityPostIDs(community.value._id);
+    // await getCommunityPosts(postIds);
 })
 
 </script>
 
 <template>
-    <CommunityBannerComponent :community="community.value"/>
-    <article v-for="post in posts" :key="post._id">
-        <PostComponent :post="post"/>
-    </article>
+    <section>
+        <CommunityBannerComponent :title="community.title" :imageIconURL="community.imageIconURL"/>
+    </section>
+    <!-- <section>
+        <article v-for="post in posts" :key="post._id">
+            <PostComponent :post="post"/>
+        </article>
+    </section> -->
 </template>
 
 <style>
