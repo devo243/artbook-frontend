@@ -165,9 +165,9 @@ class Routes {
   // Communiting
 
   @Router.post("/communities")
-  async createCommunity(session: SessionDoc, title: string, description: string) {
+  async createCommunity(session: SessionDoc, title: string, description: string, imageBannerURL: string) {
     const user = Sessioning.getUser(session);
-    const created = await Communiting.create(user, title, description);
+    const created = await Communiting.create(user, title, description, imageBannerURL);
     return { msg: created.msg, community: await Responses.community(created.community) };
   }
 
