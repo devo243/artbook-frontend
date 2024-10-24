@@ -72,7 +72,7 @@ onBeforeMount(async () => {
         <li v-if="isLoggedIn">
           <ul class="community">
             <li v-for="(c, i) in communities" :key="i">
-              {{ c.title }}
+              <RouterLink :to="'/community/' + c.title" :class="{ underline: currentRouteName == 'Community' }">{{ c.title }}</RouterLink>
             </li>
           </ul>
         </li>
