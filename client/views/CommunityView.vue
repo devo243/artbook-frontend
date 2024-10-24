@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import CommunityPostListComponent from "@/components/Community/CommunityPostListComponent.vue";
 
-const props = defineProps(["title"])
+const props = defineProps(["title"]);
 </script>
 
 <template>
-    <CommunityPostListComponent :title="props.title"/>
+  <CommunityPostListComponent :title="props.title" />
 </template>

@@ -3,11 +3,12 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import { useUserStore } from "@/stores/user";
 import CommunityView from "../views/CommunityView.vue";
+import CreateCommunityView from "../views/CreateCommunityView.vue";
+import CreatePostView from "../views/CreatePostView.vue";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
 import SettingView from "../views/SettingView.vue";
-import TestView from "../views/TestView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -43,10 +44,16 @@ const router = createRouter({
       props: true,
     },
     {
-      path: "/test",
-      name: "Test",
-      component: TestView,
-      meta: { requiresAuth: false }
+      path: "/create/community",
+      name: "Create Community",
+      component: CreateCommunityView,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/create/post",
+      name: "Create Post",
+      component: CreatePostView,
+      meta: { requiresAuth: true },
     },
     {
       path: "/:catchAll(.*)",

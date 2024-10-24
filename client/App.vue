@@ -22,9 +22,9 @@ const getUserCommunities = async (username: string) => {
     console.log(_);
     return;
   }
-  
+
   communities.value = response;
-}
+};
 
 // Make sure to update the session before mounting the app in case the user is already logged in
 onBeforeMount(async () => {
@@ -41,47 +41,44 @@ onBeforeMount(async () => {
   <div class="container">
     <div class="navbar">
       <div class="title">
-          <img src="@/assets/images/logo.svg" />
-          <RouterLink :to="{ name: 'Home' }">
-            <h1>artBook</h1>
-          </RouterLink>
+        <img src="@/assets/images/logo.svg" />
+        <RouterLink :to="{ name: 'Home' }">
+          <h1>artBook</h1>
+        </RouterLink>
       </div>
       <ul class="options">
         <li>
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
         </li>
-        <li v-if="isLoggedIn">
-          Profile
-        </li>
+        <li v-if="isLoggedIn">Profile</li>
         <li v-if="isLoggedIn">
           <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
         </li>
-        <li>
-          Search
+        <li v-else>
+          <RouterLink :to="{ name: 'Login' }" :class="{ underline: currentRouteName == 'Login' }"> Login </RouterLink>
         </li>
+        <li>Search</li>
         <li v-if="isLoggedIn">
-          Create Post
+          <RouterLink :to="'/create/post/'" :class="{ underline: currentRouteName == 'Create Post' }"> Submit Post </RouterLink>
         </li>
-        <hr v-if="isLoggedIn"/>
+        <hr v-if="isLoggedIn" />
+        <li v-if="isLoggedIn">Communities</li>
         <li v-if="isLoggedIn">
-          Communities
-        </li>
-        <li v-if="isLoggedIn">
-          Create Community
+          <RouterLink :to="'/create/community/'" :class="{ underline: currentRouteName == 'Create Community' }"> Create Community </RouterLink>
         </li>
         <li v-if="isLoggedIn">
           <ul class="community">
             <li v-for="(c, i) in communities" :key="i">
-              <RouterLink :to="'/community/' + c.title" :class="{ underline: currentRouteName == 'Community' }">{{ c.title }}</RouterLink>
+              <RouterLink :to="{ name: 'Community', params: { title: c.title } }" :class="{ underline: currentRouteName == 'Community' }">{{ c.title }}</RouterLink>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-  <div class="page">
-    <RouterView />
+    <div class="page">
+      <RouterView :key="$route.fullPath" />
+    </div>
   </div>
-</div>
 </template>
 
 <style scoped>
@@ -136,26 +133,26 @@ a {
 }
 
 li {
-    display: block;
+  display: block;
 }
 
 ul.options li {
-    padding: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 10px;
 }
 
 ul.community {
-    padding-left: 0px;
+  padding-left: 0px;
 }
 
-ul.community li{
-    padding: 10px 0px 10px 0px;
+ul.community li {
+  padding: 10px 0px 10px 0px;
 }
 
 hr {
-    width: 80px;
-    justify-content: flex-end;
-    display: flex;
-    padding-left: 20px;
-    margin-left: 0.5em;
+  width: 80px;
+  justify-content: flex-end;
+  display: flex;
+  padding-left: 20px;
+  margin-left: 0.5em;
 }
 </style>
