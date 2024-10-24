@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useToastStore } from "@/stores/toast";
 import { useUserStore } from "@/stores/user";
+import { fetchy } from "@/utils/fetchy";
 import { storeToRefs } from "pinia";
-import { computed, onBeforeMount } from "vue";
+import { computed, onBeforeMount, ref } from "vue";
 import { RouterLink, RouterView, useRoute } from "vue-router";
 
 const currentRoute = useRoute();
@@ -10,11 +11,26 @@ const currentRouteName = computed(() => currentRoute.name);
 const userStore = useUserStore();
 const { isLoggedIn } = storeToRefs(userStore);
 const { toast } = storeToRefs(useToastStore());
+const { currentUsername } = storeToRefs(userStore);
+const communities = ref<Array<Record<string, string>>>([]);
+
+const getUserCommunities = async (username: string) => {
+  let response;
+  try {
+    response = await fetchy(`/api/users/${username}/communities`, "GET");
+  } catch (_) {
+    console.log(_);
+    return;
+  }
+  
+  communities.value = response;
+}
 
 // Make sure to update the session before mounting the app in case the user is already logged in
 onBeforeMount(async () => {
   try {
     await userStore.updateSession();
+    await getUserCommunities(currentUsername.value);
   } catch {
     // User is not logged in
   }
@@ -22,41 +38,63 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <header>
-    <nav>
+  <div class="container">
+    <div class="navbar">
       <div class="title">
-        <img src="@/assets/images/logo.svg" />
-        <RouterLink :to="{ name: 'Home' }">
-          <h1>Social Media App</h1>
-        </RouterLink>
+          <img src="@/assets/images/logo.svg" />
+          <RouterLink :to="{ name: 'Home' }">
+            <h1>artBook</h1>
+          </RouterLink>
       </div>
-      <ul>
+      <ul class="options">
         <li>
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
         </li>
         <li v-if="isLoggedIn">
+          Profile
+        </li>
+        <li v-if="isLoggedIn">
           <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
         </li>
-        <li v-else>
-          <RouterLink :to="{ name: 'Login' }" :class="{ underline: currentRouteName == 'Login' }"> Login </RouterLink>
+        <li>
+          Search
+        </li>
+        <li v-if="isLoggedIn">
+          Create Post
+        </li>
+        <hr v-if="isLoggedIn"/>
+        <li v-if="isLoggedIn">
+          Communities
+        </li>
+        <li v-if="isLoggedIn">
+          Create Community
+        </li>
+        <li v-if="isLoggedIn">
+          <ul class="community">
+            <li v-for="(c, i) in communities" :key="i">
+              {{ c.title }}
+            </li>
+          </ul>
         </li>
       </ul>
-    </nav>
-    <article v-if="toast !== null" class="toast" :class="toast.style">
-      <p>{{ toast.message }}</p>
-    </article>
-  </header>
-  <RouterView />
+    </div>
+  <div class="page">
+    <RouterView />
+  </div>
+</div>
 </template>
 
 <style scoped>
 @import "./assets/toast.css";
 
-nav {
-  padding: 1em 2em;
-  background-color: lightgray;
+.container {
   display: flex;
-  align-items: center;
+}
+
+.page {
+  flex-grow: 1;
+  margin: 0 0 0 300px;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -80,16 +118,44 @@ a {
   text-decoration: none;
 }
 
-ul {
-  list-style-type: none;
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  gap: 1em;
-}
-
 .underline {
   text-decoration: underline;
+}
+
+.navbar {
+  align-content: flex-start;
+  width: 300px;
+  height: 100%;
+  position: fixed;
+  overflow-y: scroll;
+  border-right: 1px solid grey;
+}
+
+.navbar::-webkit-scrollbar {
+  display: none;
+}
+
+li {
+    display: block;
+}
+
+ul.options li {
+    padding: 10px 10px 10px 10px;
+}
+
+ul.community {
+    padding-left: 0px;
+}
+
+ul.community li{
+    padding: 10px 0px 10px 0px;
+}
+
+hr {
+    width: 80px;
+    justify-content: flex-end;
+    display: flex;
+    padding-left: 20px;
+    margin-left: 0.5em;
 }
 </style>

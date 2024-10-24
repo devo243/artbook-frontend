@@ -12,7 +12,6 @@ export interface UserDoc extends BaseDoc {
  */
 export default class AuthenticatingConcept {
   public readonly users: DocCollection<UserDoc>;
-
   /**
    * Make an instance of Authenticating.
    */
