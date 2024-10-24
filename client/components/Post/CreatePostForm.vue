@@ -1,15 +1,28 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+import { onBeforeMount, ref } from "vue";
 import { fetchy } from "../../utils/fetchy";
 
 const content = ref("");
+const community = ref("");
+const communities = ref<Array<Record<string, string>>>([]);
 const emit = defineEmits(["refreshPosts"]);
+const { currentUsername } = storeToRefs(useUserStore());
 
-const createPost = async (content: string) => {
+const createPost = async (content: string, communityID?: string) => {
+  let post;
+
   try {
-    await fetchy("/api/posts", "POST", {
+    post = await fetchy("/api/posts", "POST", {
       body: { content },
     });
+
+    if (communityID) {
+      await fetchy(`/api/communities/${communityID}/items`, "POST", {
+        body: { id: communityID, itemID: post._id },
+      });
+    }
   } catch (_) {
     return;
   }
@@ -17,14 +30,41 @@ const createPost = async (content: string) => {
   emptyForm();
 };
 
+const getUserCommunities = async (username: string) => {
+  let response;
+  try {
+    response = await fetchy(`/api/users/${username}/communities`, "GET");
+  } catch (_) {
+    console.log(_);
+    return;
+  }
+  
+  communities.value = response;
+}
+
+
 const emptyForm = () => {
   content.value = "";
+  community.value = "";
 };
+
+onBeforeMount(async () => {
+  await getUserCommunities(currentUsername.value);
+})
 </script>
 
 <template>
   <form @submit.prevent="createPost(content)">
-    <label for="content">Google Drive Link:</label>
+    <label for="community">Choose community:</label>
+    <select name="community" v-model="community" id="community">
+      <option :value="null">
+        No community
+      </option>
+      <option v-for="(c, i) in communities" :key="i" :value="c._id">
+        {{ c.title }}
+      </option>
+    </select>
+    <label for="content">Image Link:</label>
     <textarea id="content" v-model="content" placeholder="Add your google drive link!" required> </textarea>
     <button type="submit" class="pure-button-primary pure-button">Create Post</button>
   </form>

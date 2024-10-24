@@ -80,7 +80,9 @@ export default class CommunitingConcept {
   }
 
   async getUserCommunities(user: ObjectId) {
-    return await this.communityMembers.readMany({ member: user})
+    const userCommunities = await this.communityMembers.readMany({ member: user });
+
+    return Promise.all(userCommunities.map(async c => {return await this.getCommunityByID(c.community)}));
   }
 
   private checkObjectIdInArray(_id: ObjectId, arr: ObjectId[]) {

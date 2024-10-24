@@ -19,7 +19,7 @@ const deleteCommunity = async () => {
 
 const joinCommunity = async () => {
   try {
-    await fetchy(`/api/communities/${props.community._id}/join`, "PATCH");
+    await fetchy(`/api/communities/${props.community._id}/join`, "POST");
   } catch {
     return;
   }
@@ -27,13 +27,11 @@ const joinCommunity = async () => {
 
 const leaveCommunity = async () => {
   try {
-    await fetchy(`/api/communities/${props.community._id}/leave`, "PATCH");
+    await fetchy(`/api/communities/${props.community._id}/leave`, "DELETE");
   } catch {
     return;
   }
 };
-
-console.log(props.community);
 
 // const getGoogleID = (link: string) => {
 //   return link.split("/")[5];

@@ -241,7 +241,9 @@ class Routes {
   async getUserCommunities(username: string) {
     const oid =  (await Authing.getUserByUsername(username))._id;
 
-    return await Communiting.getUserCommunities(oid);
+    const communities = await Communiting.getUserCommunities(oid);
+
+    return communities;
   }
 
   // Favoriting
