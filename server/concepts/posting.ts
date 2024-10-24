@@ -41,7 +41,7 @@ export default class PostingConcept {
   }
 
   async getByID(_id: ObjectId) {
-    const post = await this.posts.readOne({ _id });
+    const post = await this.posts.readOne({ _id: _id });
 
     if (!post) {
       throw new NotFoundError(`Post ${_id} does not exist!`);

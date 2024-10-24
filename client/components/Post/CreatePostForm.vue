@@ -7,20 +7,21 @@ import { fetchy } from "../../utils/fetchy";
 const content = ref("");
 const community = ref("");
 const communities = ref<Array<Record<string, string>>>([]);
+const validImg = ref(true);
 const emit = defineEmits(["refreshPosts"]);
 const { currentUsername } = storeToRefs(useUserStore());
 
 const createPost = async (content: string, communityID?: string) => {
-  let post;
+  let response;
 
   try {
-    post = await fetchy("/api/posts", "POST", {
+    response = await fetchy("/api/posts", "POST", {
       body: { content },
     });
-
+    
     if (communityID) {
       await fetchy(`/api/communities/${communityID}/items`, "POST", {
-        body: { id: communityID, itemID: post._id },
+        body: { id: communityID, itemID: response.post._id },
       });
     }
   } catch (_) {
@@ -51,10 +52,18 @@ const emptyForm = () => {
 onBeforeMount(async () => {
   await getUserCommunities(currentUsername.value);
 })
+
+const imageLoadError = () => {
+  validImg.value = false;
+}
+
+const previewImage = () => {
+  validImg.value = true;
+}
 </script>
 
 <template>
-  <form @submit.prevent="createPost(content)">
+  <form @submit.prevent="createPost(content, community)">
     <label for="community">Choose community:</label>
     <select name="community" v-model="community" id="community">
       <option :value="null">
@@ -65,7 +74,8 @@ onBeforeMount(async () => {
       </option>
     </select>
     <label for="content">Image Link:</label>
-    <textarea id="content" v-model="content" placeholder="Add your google drive link!" required> </textarea>
+    <textarea id="content" v-model="content" placeholder="Place the Image Link you want to share!" required @input="previewImage"> </textarea>
+    <img v-bind:src="content" v-if="validImg" @error="imageLoadError"/>
     <button type="submit" class="pure-button-primary pure-button">Create Post</button>
   </form>
 </template>
