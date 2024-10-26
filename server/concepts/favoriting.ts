@@ -19,7 +19,7 @@ export default class FavoritingConcept {
   }
 
   async favorite(user: ObjectId, item: ObjectId) {
-    this.assertItemIsNotFavorite(user, item);
+    await this.assertItemIsNotFavorite(user, item);
 
     const _id = await this.favorites.createOne({ user, item });
 
@@ -27,7 +27,7 @@ export default class FavoritingConcept {
   }
 
   async unfavorite(user: ObjectId, item: ObjectId) {
-    this.assertItemIsFavorite(user, item);
+    await this.assertItemIsFavorite(user, item);
 
     await this.favorites.deleteOne({ user: user, item: item });
 
@@ -48,6 +48,12 @@ export default class FavoritingConcept {
     const favs = await this.favorites.readMany({ user: user });
 
     return favs;
+  }
+
+  async getFavoriteFromUserAndItem(user: ObjectId, item: ObjectId) {
+    const favorite = await this.favorites.readOne({ user: user, item: item });
+
+    return favorite;
   }
 
   async assertItemIsFavorite(user: ObjectId, item: ObjectId) {

@@ -239,7 +239,7 @@ class Routes {
 
   @Router.get("/users/:username/communities")
   async getUserCommunities(username: string) {
-    const oid =  (await Authing.getUserByUsername(username))._id;
+    const oid = (await Authing.getUserByUsername(username))._id;
 
     const communities = await Communiting.getUserCommunities(oid);
 
@@ -275,6 +275,14 @@ class Routes {
     const oid = (await Authing.getUserByUsername(username))._id;
 
     return await Favoriting.getFavorites(oid);
+  }
+
+  @Router.get("/users/:username/favorites/:itemID")
+  async getFavoriteFromUserAndItem(username: string, itemID: string) {
+    const oid = (await Authing.getUserByUsername(username))._id;
+    const itemOID = new ObjectId(itemID);
+
+    return await Favoriting.getFavoriteFromUserAndItem(oid, itemOID);
   }
 
   // Featuring
