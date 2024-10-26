@@ -16,4 +16,4 @@ export const Friending = new FriendingConcept("friends");
 export const Communiting = new CommunitingConcept("communities");
 export const Favoriting = new FavoritingConcept("favorites");
 export const Feeding = new FeedingConcept("feeds");
-export const Featuring = new FeaturingConcept("features", 10);
+export const Featuring = new FeaturingConcept("features", 10, 2);
