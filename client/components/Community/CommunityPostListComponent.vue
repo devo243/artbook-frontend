@@ -61,7 +61,7 @@ onBeforeMount(async () => {
 
 <template>
   <section>
-    <CommunityBannerComponent :title="community.title" :imageIconURL="community.imageIconURL" />
+    <CommunityBannerComponent :community="community" />
   </section>
   <h2>Posts:</h2>
   <section class="posts">
@@ -71,6 +71,9 @@ onBeforeMount(async () => {
       </article>
       <hr />
     </div>
+    <p v-if="posts.length === 0">
+      No posts in these community!
+    </p>
   </section>
 </template>
 
