@@ -5,6 +5,7 @@ import { fetchy } from "../../utils/fetchy";
 const title = ref("");
 const description = ref("");
 const icon = ref("");
+const validImg = ref(true);
 const emit = defineEmits(["refreshCommunities"]);
 
 const createCommunity = async (title: string, description: string, imageIconURL: string) => {
@@ -24,6 +25,14 @@ const emptyForm = () => {
   description.value = "";
   icon.value = "";
 };
+
+const imageLoadError = () => {
+  validImg.value = false;
+};
+
+const previewImage = () => {
+  validImg.value = true;
+};
 </script>
 
 <template>
@@ -33,7 +42,12 @@ const emptyForm = () => {
     <label for="description">Add Description!:</label>
     <textarea id="description" v-model="description" placeholder="Add your description!" required> </textarea>
     <label for="icon">Add Icon!:</label>
-    <textarea id="icon" v-model="icon" placeholder="Add your icon image url!" required> </textarea>
+    <textarea id="icon" v-model="icon" placeholder="Add your icon image url!" required @input="previewImage"> </textarea>
+    <label>Preview Icon:</label>
+    <img v-bind:src="icon" v-if="validImg" @error="imageLoadError" />
+    <div v-else class="picture">
+      <img class="default" src="@/assets/images/photo.svg" />
+    </div>
     <button type="submit" class="pure-button-primary pure-button">Create Community</button>
   </form>
 </template>
@@ -55,5 +69,30 @@ textarea {
   padding: 0.5em;
   border-radius: 4px;
   resize: none;
+}
+
+img {
+  align-self: center;
+  height: 200px;
+  width: 200px;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.default {
+  width: auto;
+  height: auto;
+  align-self: center;
+  max-height: 128px;
+  max-width: 96px;
+}
+
+.picture {
+  display: flex;
+  width: 200px;
+  height: 200px;
+  background-color: white;
+  align-self: center;
+  justify-content: center;
 }
 </style>
