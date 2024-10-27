@@ -36,7 +36,7 @@ async function getCommunityPosts(communityID: string) {
     }),
   );
 
-  posts.value = response;
+  posts.value = response.filter((r) => r !== undefined);
 }
 
 async function getCommunity(title: string) {

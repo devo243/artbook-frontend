@@ -28,8 +28,7 @@ const getFeaturedPosts = async () => {
     }),
   );
 
-  posts.value = featuredPosts;
-  console.log(posts.value);
+  posts.value = featuredPosts.filter((p) => p !== undefined);
 };
 
 onBeforeMount(async () => {
