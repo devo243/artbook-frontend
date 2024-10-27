@@ -30,9 +30,14 @@ const getUserCommunities = async (username: string) => {
 onBeforeMount(async () => {
   try {
     await userStore.updateSession();
-    await getUserCommunities(currentUsername.value);
   } catch {
     // User is not logged in
+  }
+
+  try {
+    await getUserCommunities(currentUsername.value);
+  } catch {
+    //
   }
 });
 </script>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
-import { formatDate } from "@/utils/formatDate";
+import { timeFromToday } from "@/utils/formatDate";
 import { storeToRefs } from "pinia";
 import { fetchy } from "../../utils/fetchy";
 import LikeComponent from "../Liking/LikeComponent.vue";
@@ -20,17 +20,17 @@ const deletePost = async () => {
 </script>
 
 <template>
-  <p class="author">{{ props.post.author }}</p>
-  <p>Source of the image is {{ props.post.content }}</p>
+  <div class="title">
+    <p class="author">{{ props.post.author }}</p>
+    <p class="date">{{ timeFromToday(props.post.dateCreated) }}</p>
+  </div>
+
   <img v-bind:src="props.post.content" />
   <div class="base">
     <menu v-if="props.post.author == currentUsername">
       <li><button class="button-error btn-small pure-button" @click="deletePost">Delete</button></li>
     </menu>
-    <article class="timestamp">
-      <p v-if="props.post.dateCreated !== props.post.dateUpdated">Edited on: {{ formatDate(props.post.dateUpdated) }}</p>
-      <p v-else>Created on: {{ formatDate(props.post.dateCreated) }}</p>
-    </article>
+
     <LikeComponent :postID="props.post._id" />
   </div>
 </template>
@@ -43,6 +43,18 @@ p {
 .author {
   font-weight: bold;
   font-size: 1.2em;
+}
+
+.title {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.date {
+  font-style: italic;
+  color: rgb(94, 94, 94);
 }
 
 menu {
@@ -69,5 +81,13 @@ menu {
 
 .base article:only-child {
   margin-left: auto;
+}
+
+img {
+  width: auto;
+  height: auto;
+  align-self: center;
+  max-height: 640px;
+  max-width: 480px;
 }
 </style>

@@ -47,24 +47,54 @@ onBeforeMount(async () => {
 <template>
   <section>
     <p>Featured Posts!</p>
-    <article v-for="post in posts" :key="post._id">
-      <PostComponent :post="post" @refreshPosts="getFeaturedPosts" />
-    </article>
+    <section class="posts">
+      <article v-for="post in posts" :key="post._id">
+        <PostComponent :post="post" @refreshPosts="getFeaturedPosts" />
+      </article>
+    </section>
     <p v-if="isEmpty">Sorry, no featured posts!</p>
   </section>
 </template>
 
 <style>
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+section,
+p,
+.row {
+  margin: 0 auto;
+  max-width: 60em;
+}
+
 article {
-  background-color: var(--base-bg);
-  border-radius: 1em;
+  background-color: white;
+  /* border-radius: 1em; */
   display: flex;
   flex-direction: column;
   gap: 0.5em;
   padding: 1em;
+  width: 480px;
 }
 
 .posts {
   padding: 1em;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 60em;
+}
+
+hr {
+  height: 2px;
+  color: #000;
+  width: 100%;
 }
 </style>

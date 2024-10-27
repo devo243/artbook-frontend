@@ -63,7 +63,7 @@ onBeforeMount(async () => {
   <section>
     <CommunityBannerComponent :title="community.title" :imageIconURL="community.imageIconURL" />
   </section>
-  <section>
+  <section class="posts">
     <article v-for="post in posts" :key="post._id">
       <PostComponent :post="post" @refreshPosts="getCommunityPosts(community._id)" />
     </article>
@@ -71,16 +71,44 @@ onBeforeMount(async () => {
 </template>
 
 <style>
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+section,
+p,
+.row {
+  margin: 0 auto;
+  max-width: 60em;
+}
+
 article {
-  background-color: var(--base-bg);
-  border-radius: 1em;
+  background-color: white;
+  /* border-radius: 1em; */
   display: flex;
   flex-direction: column;
   gap: 0.5em;
   padding: 1em;
+  width: 480px;
 }
 
 .posts {
   padding: 1em;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 60em;
+}
+
+hr {
+  height: 2px;
+  color: #000;
+  width: 100%;
 }
 </style>

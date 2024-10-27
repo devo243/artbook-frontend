@@ -18,6 +18,8 @@ const checkIfFavorited = async () => {
 
   if (response) {
     isFavorited.value = true;
+  } else {
+    isFavorited.value = false;
   }
 };
 
