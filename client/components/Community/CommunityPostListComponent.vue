@@ -63,6 +63,7 @@ onBeforeMount(async () => {
   <section>
     <CommunityBannerComponent :title="community.title" :imageIconURL="community.imageIconURL" />
   </section>
+  <h2>Posts:</h2>
   <section class="posts">
     <div v-for="post in posts" :key="post._id">
       <article>
@@ -87,6 +88,10 @@ p,
   max-width: 60em;
 }
 
+h2 {
+  margin-left: 20%;
+  padding-top: 20px;
+}
 article {
   background-color: rgb(255, 255, 255);
   border-radius: 0.5em;

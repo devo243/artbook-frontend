@@ -36,6 +36,7 @@ const previewImage = () => {
 </script>
 
 <template>
+  <div class="form">
   <form @submit.prevent="createCommunity(title, description, icon)">
     <label for="title">Add title!:</label>
     <textarea id="title" v-model="title" placeholder="Add your title!" required> </textarea>
@@ -48,11 +49,21 @@ const previewImage = () => {
     <div v-else class="picture">
       <img class="default" src="@/assets/images/photo.svg" />
     </div>
-    <button type="submit" class="pure-button-primary pure-button">Create Community</button>
+    <button type="submit" class="pure-button-primary pure-button" :disabled="!validImg">Create Community</button>
   </form>
+</div>
 </template>
 
+
 <style scoped>
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  padding-top: 50px;
+}
 form {
   background-color: var(--base-bg);
   border-radius: 1em;
@@ -60,6 +71,8 @@ form {
   flex-direction: column;
   gap: 0.5em;
   padding: 1em;
+  width: 60%;
+  align-self: center;
 }
 
 textarea {
@@ -73,10 +86,11 @@ textarea {
 
 img {
   align-self: center;
-  height: 200px;
-  width: 200px;
+  height: 160px;
+  width: 160px;
   overflow: hidden;
   object-fit: cover;
+  border-radius: 100%;
 }
 
 .default {
@@ -89,10 +103,11 @@ img {
 
 .picture {
   display: flex;
-  width: 200px;
-  height: 200px;
+  width: 160px;
+  height: 160px;
   background-color: white;
   align-self: center;
   justify-content: center;
+  border-radius: 100%;
 }
 </style>

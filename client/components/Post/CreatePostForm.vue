@@ -62,26 +62,37 @@ const previewImage = () => {
 </script>
 
 <template>
-  <form @submit.prevent="createPost(content, community)">
-    <label for="community">Choose community:</label>
-    <select name="community" v-model="community" id="community">
-      <option :value="null">No community</option>
-      <option v-for="(c, i) in communities" :key="i" :value="c._id">
-        {{ c.title }}
-      </option>
-    </select>
-    <label for="content">Image Link:</label>
-    <textarea id="content" v-model="content" placeholder="Place the Image Link you want to share!" required @input="previewImage"> </textarea>
-    <label>Preview Image:</label>
-    <img v-bind:src="content" v-if="validImg" @error="imageLoadError" />
-    <div v-else class="picture">
-      <img class="default" src="@/assets/images/photo.svg" />
-    </div>
-    <button type="submit" class="pure-button-primary pure-button" :disabled="!validImg">Create Post</button>
-  </form>
+  <div class="form">
+    <form @submit.prevent="createPost(content, community)">
+      <label for="community">Choose community:</label>
+      <select name="community" v-model="community" id="community">
+        <option :value="null">No community</option>
+        <option v-for="(c, i) in communities" :key="i" :value="c._id">
+          {{ c.title }}
+        </option>
+      </select>
+      <label for="content">Image Link:</label>
+      <textarea id="content" v-model="content" placeholder="Place the Image Link you want to share!" required @input="previewImage"> </textarea>
+      <label>Preview Image:</label>
+      <img v-bind:src="content" v-if="validImg" @error="imageLoadError" />
+      <div v-else class="picture">
+        <img class="default" src="@/assets/images/photo.svg" />
+      </div>
+      <button type="submit" class="pure-button-primary pure-button" :disabled="!validImg">Create Post</button>
+    </form>
+  </div>
 </template>
 
 <style scoped>
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  padding-top: 50px;
+}
+
 form {
   background-color: var(--base-bg);
   border-radius: 1em;

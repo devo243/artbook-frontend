@@ -46,7 +46,7 @@ onBeforeMount(async () => {
   <div class="container">
     <div class="navbar">
       <div class="title">
-        <img src="@/assets/images/logo.svg" />
+        <img src="@/assets/images/book.svg" />
         <RouterLink :to="{ name: 'Home' }">
           <h1>artBook</h1>
         </RouterLink>
@@ -55,7 +55,6 @@ onBeforeMount(async () => {
         <li>
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
         </li>
-        <li v-if="isLoggedIn">Profile</li>
         <li v-if="isLoggedIn">
           <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
         </li>
@@ -67,7 +66,7 @@ onBeforeMount(async () => {
           <RouterLink :to="'/create/post/'" :class="{ underline: currentRouteName == 'Create Post' }"> Submit Post </RouterLink>
         </li>
         <hr v-if="isLoggedIn" />
-        <li v-if="isLoggedIn">Communities</li>
+        <li class="comms" v-if="isLoggedIn">Communities</li>
         <li v-if="isLoggedIn">
           <RouterLink :to="'/create/community/'" :class="{ underline: currentRouteName == 'Create Community' }"> Create Community </RouterLink>
         </li>
@@ -89,6 +88,11 @@ onBeforeMount(async () => {
 <style scoped>
 @import "./assets/toast.css";
 
+.comms {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
 .container {
   display: flex;
 }
@@ -97,6 +101,8 @@ onBeforeMount(async () => {
   flex-grow: 1;
   margin: 0 0 0 300px;
   overflow-x: hidden;
+  /* background-color: #BEC5AD; */
+  min-height: 100vh;
 }
 
 h1 {
@@ -108,6 +114,8 @@ h1 {
   display: flex;
   align-items: center;
   gap: 0.5em;
+  padding-left: 20px;
+  padding-top: 10px;
 }
 
 img {
@@ -131,6 +139,7 @@ a {
   position: fixed;
   overflow-y: scroll;
   border-right: 1px solid grey;
+  background-color: #BEC5AD;
 }
 
 .navbar::-webkit-scrollbar {
@@ -147,6 +156,7 @@ ul.options li {
 
 ul.community {
   padding-left: 0px;
+  margin-top: -10px;
 }
 
 ul.community li {
@@ -154,10 +164,13 @@ ul.community li {
 }
 
 hr {
-  width: 80px;
+  width: 160px;
+  height: 1px;
   justify-content: flex-end;
   display: flex;
-  padding-left: 20px;
+  padding-left: 10px;
   margin-left: 0.5em;
+  border-color: #3B5249;
+  background-color: #3B5249;
 }
 </style>
