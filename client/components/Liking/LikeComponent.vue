@@ -16,8 +16,6 @@ const checkIfFavorited = async () => {
     return;
   }
 
-  console.log(response);
-
   if (response) {
     isFavorited.value = true;
   }
@@ -33,6 +31,16 @@ const favorite = async () => {
   }
 
   isFavorited.value = true;
+
+  try {
+    const numFavorites = await fetchy(`/api/posts/${props.postID}/favorites`, "GET");
+
+    await fetchy(`/api/posts/featured`, "POST", {
+      body: { item: props.postID, attention: numFavorites.numFavorites },
+    });
+  } catch (_) {
+    return;
+  }
 };
 
 const unfavorite = async () => {

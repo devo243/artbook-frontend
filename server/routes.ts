@@ -252,7 +252,9 @@ class Routes {
     const user = Sessioning.getUser(session);
     const oid = new ObjectId(id);
 
-    return await Favoriting.favorite(user, oid);
+    const favorite = await Favoriting.favorite(user, oid);
+
+    return favorite;
   }
 
   @Router.delete("/posts/:id/favorites")
@@ -286,19 +288,20 @@ class Routes {
   }
 
   // Featuring
-  @Router.get("/posts/featured")
+  @Router.get("/featured")
   async getFeatured() {
-    return await Featuring.getFeatured();
+    const featured = await Featuring.getFeatured();
+    return featured.map((f) => f.item);
   }
 
-  @Router.post("/posts/featured")
+  @Router.post("/featured")
   async addFeatured(item: string, attention: string) {
     const itemID = new ObjectId(item);
 
     return await Featuring.promote(itemID, +attention);
   }
 
-  @Router.delete("/posts/featured/:item")
+  @Router.delete("/featured/:item")
   async deleteFeatured(item: string, attention: string) {
     const itemID = new ObjectId(item);
 

@@ -26,6 +26,7 @@ export default class FeaturingConcept {
 
     if (attention >= this.minimumAttention) {
       await this.features.createOne({ item: item });
+
       return { msg: "An item has been added to a feed!" };
     } else {
       return { msg: "The item didn't meet the minimum attention." };
@@ -62,7 +63,7 @@ export default class FeaturingConcept {
   async getFeatured() {
     await this.checkPromoted();
 
-    return await this.features.readMany({}, { sort: { _id: -1 } });
+    return await this.features.readMany({});
   }
 
   async assertItemIsFeatured(item: ObjectId) {

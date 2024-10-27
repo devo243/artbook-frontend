@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CommunityListComponent from "@/components/Community/CommunityListComponent.vue";
+import FeaturedPostListComponent from "@/components/Featured/FeaturedPostListComponent.vue";
 import PostListComponent from "@/components/Post/PostListComponent.vue";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
@@ -14,8 +14,8 @@ const { currentUsername, isLoggedIn } = storeToRefs(useUserStore());
       <h1 v-if="isLoggedIn">Welcome {{ currentUsername }}!</h1>
       <h1 v-else>Please login!</h1>
     </section>
+    <FeaturedPostListComponent />
     <PostListComponent />
-    <CommunityListComponent />
   </main>
 </template>
 

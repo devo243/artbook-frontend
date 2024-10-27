@@ -20,9 +20,11 @@ async function getCommunityPostIDs(communityID: string) {
   return postIds;
 }
 
-async function getCommunityPosts(postIds: string[]) {
+async function getCommunityPosts(communityID: string) {
+  const postIds = await getCommunityPostIDs(communityID);
+
   const response = await Promise.all(
-    postIds.map(async (id) => {
+    postIds.map(async (id: string) => {
       let post;
       try {
         post = await fetchy(`/api/posts/${id}`, "GET");
@@ -53,9 +55,7 @@ async function getCommunity(title: string) {
 
 onBeforeMount(async () => {
   await getCommunity(props.title);
-  const postIds = await getCommunityPostIDs(community.value._id);
-  console.log(postIds);
-  await getCommunityPosts(postIds);
+  await getCommunityPosts(community.value._id);
 });
 </script>
 
@@ -65,7 +65,7 @@ onBeforeMount(async () => {
   </section>
   <section>
     <article v-for="post in posts" :key="post._id">
-      <PostComponent :post="post" />
+      <PostComponent :post="post" @refreshPosts="getCommunityPosts(community._id)" />
     </article>
   </section>
 </template>
