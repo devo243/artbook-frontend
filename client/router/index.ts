@@ -8,6 +8,7 @@ import CreatePostView from "../views/CreatePostView.vue";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
+import SearchView from "../views/SearchView.vue";
 import SettingView from "../views/SettingView.vue";
 
 const router = createRouter({
@@ -54,6 +55,12 @@ const router = createRouter({
       name: "Create Post",
       component: CreatePostView,
       meta: { requiresAuth: true },
+    },
+    {
+      path: "/search",
+      name: "Search",
+      component: SearchView,
+      meta: {requiresAuth: false},
     },
     {
       path: "/:catchAll(.*)",

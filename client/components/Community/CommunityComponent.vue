@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
-import { formatDate } from "@/utils/formatDate";
 import { storeToRefs } from "pinia";
 import { fetchy } from "../../utils/fetchy";
 
@@ -44,14 +43,8 @@ const leaveCommunity = async () => {
   <RouterLink :to="'/community/' + props.community.title" class="link">Click here to go to community!</RouterLink>
   <div class="base">
     <menu v-if="props.community.author == currentUsername">
-      <li><button class="btn-small pure-button" @click="joinCommunity">Join</button></li>
-      <li><button class="btn-small pure-button" @click="leaveCommunity">Leave</button></li>
       <li><button class="button-error btn-small pure-button" @click="deleteCommunity">Delete</button></li>
     </menu>
-    <article class="timestamp">
-      <p v-if="props.community.dateCreated !== props.community.dateUpdated">Edited on: {{ formatDate(props.community.dateUpdated) }}</p>
-      <p v-else>Created on: {{ formatDate(props.community.dateCreated) }}</p>
-    </article>
   </div>
 </template>
 

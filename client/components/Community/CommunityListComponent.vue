@@ -4,7 +4,6 @@ import { fetchy } from "@/utils/fetchy";
 import { storeToRefs } from "pinia";
 import { onBeforeMount, ref } from "vue";
 import CommunityComponent from "./CommunityComponent.vue";
-import CreateCommunityForm from "./CreateCommunityForm.vue";
 import SearchCommunityForm from "./SearchCommunityForm.vue";
 
 const { isLoggedIn } = storeToRefs(useUserStore());
@@ -37,10 +36,6 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <section v-if="isLoggedIn">
-    <h2>Create a community:</h2>
-    <CreateCommunityForm @refreshCommunities="getCommunities" />
-  </section>
   <div class="row">
     <h2 v-if="!searchTitle">Communities:</h2>
     <h2 v-else>Posts by {{ searchTitle }}:</h2>
@@ -51,7 +46,7 @@ onBeforeMount(async () => {
       <CommunityComponent v-if="editing !== community._id" :community="community" @refreshPosts="getCommunities" />
     </article>
   </section>
-  <p v-else-if="loaded">No posts found</p>
+  <p v-else-if="loaded">No communities found</p>
   <p v-else>Loading...</p>
 </template>
 
@@ -78,8 +73,9 @@ article {
   padding: 1em;
 }
 
-.posts {
+.communities {
   padding: 1em;
+  align-items: center;
 }
 
 .row {
