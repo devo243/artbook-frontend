@@ -34,10 +34,12 @@ onBeforeMount(async () => {
     <SearchPostForm @getPostsByAuthor="getPosts" />
   </div>
   <section class="posts" v-if="loaded && posts.length !== 0">
-    <article v-for="post in posts" :key="post._id">
-      <PostComponent v-if="editing !== post._id" :post="post" @refreshPosts="getPosts" />
+    <div v-for="post in posts" :key="post._id">
+      <article>
+        <PostComponent :post="post" @refreshPosts="getPosts" />
+      </article>
       <hr />
-    </article>
+    </div>
   </section>
   <p v-else-if="loaded">No posts found</p>
   <p v-else>Loading...</p>
@@ -47,7 +49,7 @@ onBeforeMount(async () => {
 section {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 0.5em;
 }
 
 section,
@@ -58,8 +60,9 @@ p,
 }
 
 article {
-  background-color: white;
-  /* border-radius: 1em; */
+  background-color: rgb(255, 255, 255);
+  border-radius: 0.5em;
+  box-shadow: 4px 4px 10px 5px rgb(194, 194, 194);
   display: flex;
   flex-direction: column;
   gap: 0.5em;
