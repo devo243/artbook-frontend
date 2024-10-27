@@ -90,5 +90,6 @@ img {
 
 button {
   border: 0px;
+  background-color: #BEC5AD;
 }
 </style>
