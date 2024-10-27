@@ -29,7 +29,7 @@ onBeforeMount(async () => {
 
 <template>
   <div class="row">
-    <h2 v-if="!searchAuthor">Posts:</h2>
+    <h2 v-if="!searchAuthor">All posts:</h2>
     <h2 v-else>Posts by {{ searchAuthor }}:</h2>
     <SearchPostForm @getPostsByAuthor="getPosts" />
   </div>

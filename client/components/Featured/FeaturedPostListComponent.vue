@@ -5,8 +5,6 @@ import PostComponent from "../Post/PostComponent.vue";
 
 let posts = ref<Array<Record<string, string>>>([]);
 
-let isEmpty = ref(false);
-
 const getFeaturedPosts = async () => {
   let featuredPostIds;
 
@@ -14,12 +12,6 @@ const getFeaturedPosts = async () => {
     featuredPostIds = await fetchy("/api/featured", "GET");
   } catch (_) {
     return;
-  }
-
-  if (!featuredPostIds) {
-    isEmpty.value = true;
-  } else {
-    isEmpty.value = false;
   }
 
   const featuredPosts = await Promise.all(
@@ -37,6 +29,7 @@ const getFeaturedPosts = async () => {
   );
 
   posts.value = featuredPosts;
+  console.log(posts.value);
 };
 
 onBeforeMount(async () => {
@@ -46,13 +39,12 @@ onBeforeMount(async () => {
 
 <template>
   <section>
-    <p>Featured Posts!</p>
     <section class="posts">
       <article v-for="post in posts" :key="post._id">
         <PostComponent :post="post" @refreshPosts="getFeaturedPosts" />
       </article>
     </section>
-    <p v-if="isEmpty">Sorry, no featured posts!</p>
+    <p v-if="posts.length === 0">Sorry, no featured posts!</p>
   </section>
 </template>
 

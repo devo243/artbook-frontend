@@ -37,10 +37,11 @@ const favorite = async () => {
   try {
     const numFavorites = await fetchy(`/api/posts/${props.postID}/favorites`, "GET");
 
-    await fetchy(`/api/posts/featured`, "POST", {
+    await fetchy(`/api/featured`, "POST", {
       body: { item: props.postID, attention: numFavorites.numFavorites },
     });
   } catch (_) {
+    console.log(_);
     return;
   }
 };

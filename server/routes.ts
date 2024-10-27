@@ -112,6 +112,7 @@ class Routes {
     const oid = new ObjectId(id);
     await Posting.assertAuthorIsUser(oid, user);
     await Feeding.deleteItemFromFeed(oid);
+    await Featuring.depromote(oid, 0);
     return Posting.delete(oid);
   }
 
