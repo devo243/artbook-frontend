@@ -90,6 +90,11 @@ img {
 
 button {
   border: 0px;
-  background-color: #bec5ad;
+  background-color: #dcedff;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #94b0da;
 }
 </style>

@@ -60,9 +60,8 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <section>
-    <CommunityBannerComponent :community="community" />
-  </section>
+  <CommunityBannerComponent :community="community" />
+
   <h2>Posts:</h2>
   <section class="posts">
     <div v-for="post in posts" :key="post._id">
@@ -117,8 +116,9 @@ article {
 }
 
 hr {
-  height: 2px;
-  color: #000;
+  height: 0px;
   width: 100%;
+  border-color: #ffffff;
+  background-color: #3b5249;
 }
 </style>

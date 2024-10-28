@@ -46,32 +46,38 @@ onBeforeMount(async () => {
   <div class="container">
     <div class="navbar">
       <div class="title">
-        <img src="@/assets/images/book.svg" />
+        <img class="logo" src="@/assets/images/book.svg" />
         <RouterLink :to="{ name: 'Home' }">
           <h1>artBook</h1>
         </RouterLink>
       </div>
       <ul class="options">
         <li>
+          <img src="@/assets/images/home.svg" />
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
         </li>
         <li v-if="isLoggedIn">
+          <img src="@/assets/images/settings.svg" />
           <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
         </li>
         <li v-else>
+          <img src="@/assets/images/settings.svg" />
           <RouterLink :to="{ name: 'Login' }" :class="{ underline: currentRouteName == 'Login' }"> Login </RouterLink>
         </li>
         <li>
-          <RouterLink :to="'/search/'" :class="{ underline: currentRouteName == 'Search' }"> Search </RouterLink>
+          <img src="@/assets/images/search.svg" />
+          <RouterLink :to="'/search/'" :class="{ underline: currentRouteName == 'Search' }"> Search Communities </RouterLink>
         </li>
         <li v-if="isLoggedIn">
+          <img src="@/assets/images/submit.svg" />
           <RouterLink :to="'/create/post/'" :class="{ underline: currentRouteName == 'Create Post' }"> Submit Post </RouterLink>
+        </li>
+        <li v-if="isLoggedIn">
+          <img src="@/assets/images/create.svg" />
+          <RouterLink :to="'/create/community/'" :class="{ underline: currentRouteName == 'Create Community' }"> Create Community </RouterLink>
         </li>
         <hr v-if="isLoggedIn" />
         <li class="comms" v-if="isLoggedIn">Communities</li>
-        <li v-if="isLoggedIn">
-          <RouterLink :to="'/create/community/'" :class="{ underline: currentRouteName == 'Create Community' }"> Create Community </RouterLink>
-        </li>
         <li v-if="isLoggedIn">
           <ul class="community">
             <li v-for="(c, i) in communities" :key="i">
@@ -120,8 +126,12 @@ h1 {
   padding-top: 10px;
 }
 
-img {
+img.logo {
   height: 2em;
+}
+
+img {
+  height: 1.2em;
 }
 
 a {
@@ -141,7 +151,7 @@ a {
   position: fixed;
   overflow-y: scroll;
   border-right: 1px solid grey;
-  background-color: #bec5ad;
+  background-color: #dcedff;
 }
 
 .navbar::-webkit-scrollbar {

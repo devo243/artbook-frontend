@@ -89,8 +89,9 @@ article {
 
 hr {
   margin-top: 1em;
-  height: 2px;
-  color: #000;
+  height: 0px;
   width: 100%;
+  border-color: #ffffff;
+  background-color: #3b5249;
 }
 </style>
