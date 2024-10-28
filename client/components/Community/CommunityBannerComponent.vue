@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { useUserStore } from "@/stores/user";
 import { fetchy } from "@/utils/fetchy";
+import { storeToRefs } from "pinia";
 const props = defineProps(["community"]);
+const { getUserCommunities } = useUserStore();
+const { currentUsername } = storeToRefs(useUserStore());
 
 const joinCommunity = async () => {
   try {
@@ -8,6 +12,8 @@ const joinCommunity = async () => {
   } catch {
     return;
   }
+
+  await getUserCommunities(currentUsername.value);
 };
 
 const leaveCommunity = async () => {
@@ -16,6 +22,8 @@ const leaveCommunity = async () => {
   } catch {
     return;
   }
+
+  await getUserCommunities(currentUsername.value);
 };
 </script>
 

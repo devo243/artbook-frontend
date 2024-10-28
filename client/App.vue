@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useToastStore } from "@/stores/toast";
 import { useUserStore } from "@/stores/user";
-import { fetchy } from "@/utils/fetchy";
 import { storeToRefs } from "pinia";
 import { computed, onBeforeMount, ref } from "vue";
 import { RouterLink, RouterView, useRoute } from "vue-router";
@@ -9,22 +8,11 @@ import { RouterLink, RouterView, useRoute } from "vue-router";
 const currentRoute = useRoute();
 const currentRouteName = computed(() => currentRoute.name);
 const userStore = useUserStore();
+const { getUserCommunities } = useUserStore();
 const { isLoggedIn } = storeToRefs(userStore);
 const { toast } = storeToRefs(useToastStore());
-const { currentUsername } = storeToRefs(userStore);
+const { currentUsername, userCommunities } = storeToRefs(userStore);
 const communities = ref<Array<Record<string, string>>>([]);
-
-const getUserCommunities = async (username: string) => {
-  let response;
-  try {
-    response = await fetchy(`/api/users/${username}/communities`, "GET");
-  } catch (_) {
-    console.log(_);
-    return;
-  }
-
-  communities.value = response;
-};
 
 // Make sure to update the session before mounting the app in case the user is already logged in
 onBeforeMount(async () => {
@@ -80,7 +68,7 @@ onBeforeMount(async () => {
         <li class="comms" v-if="isLoggedIn">Your Communities</li>
         <li v-if="isLoggedIn">
           <ul class="community">
-            <li v-for="(c, i) in communities" :key="i">
+            <li v-for="(c, i) in userCommunities" :key="i">
               <RouterLink :to="{ name: 'Community', params: { title: c.title } }" :class="{ underline: currentRouteName == 'Community' }">{{ c.title }}</RouterLink>
             </li>
           </ul>

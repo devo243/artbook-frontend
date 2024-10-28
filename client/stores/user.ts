@@ -8,10 +8,13 @@ export const useUserStore = defineStore(
   () => {
     const currentUsername = ref("");
 
+    const userCommunities = ref<Array<Record<string, string>>>([]);
+
     const isLoggedIn = computed(() => currentUsername.value !== "");
 
     const resetStore = () => {
       currentUsername.value = "";
+      userCommunities.value = [];
     };
 
     const createUser = async (username: string, password: string) => {
@@ -53,9 +56,22 @@ export const useUserStore = defineStore(
       resetStore();
     };
 
+    const getUserCommunities = async (username: string) => {
+      let response;
+      try {
+        response = await fetchy(`/api/users/${username}/communities`, "GET");
+      } catch (_) {
+        console.log(_);
+        return;
+      }
+
+      userCommunities.value = response;
+    };
+
     return {
       currentUsername,
       isLoggedIn,
+      userCommunities,
       createUser,
       loginUser,
       updateSession,
@@ -63,6 +79,7 @@ export const useUserStore = defineStore(
       updateUserUsername,
       updateUserPassword,
       deleteUser,
+      getUserCommunities,
     };
   },
   { persist: true },

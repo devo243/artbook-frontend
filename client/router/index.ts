@@ -60,7 +60,7 @@ const router = createRouter({
       path: "/search",
       name: "Search",
       component: SearchView,
-      meta: {requiresAuth: false},
+      meta: { requiresAuth: false },
     },
     {
       path: "/:catchAll(.*)",
