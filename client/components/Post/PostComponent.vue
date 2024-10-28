@@ -8,7 +8,7 @@ import LikeComponent from "../Liking/LikeComponent.vue";
 
 const props = defineProps(["post"]);
 const emit = defineEmits(["editPost", "refreshPosts"]);
-const { currentUsername } = storeToRefs(useUserStore());
+const { isLoggedIn, currentUsername } = storeToRefs(useUserStore());
 const openModal = ref(false);
 
 const deletePost = async () => {
@@ -50,7 +50,7 @@ const closeDeleteModal = () => {
       <li><button class="button-error btn-small pure-button" @click="openDeleteModal">Delete</button></li>
     </menu>
 
-    <LikeComponent :postID="props.post._id" />
+    <LikeComponent :postID="props.post._id" v-if="isLoggedIn" />
   </div>
 </template>
 
