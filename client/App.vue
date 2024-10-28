@@ -77,7 +77,7 @@ onBeforeMount(async () => {
           <RouterLink :to="'/create/community/'" :class="{ underline: currentRouteName == 'Create Community' }"> Create Community </RouterLink>
         </li>
         <hr v-if="isLoggedIn" />
-        <li class="comms" v-if="isLoggedIn">Communities</li>
+        <li class="comms" v-if="isLoggedIn">Your Communities</li>
         <li v-if="isLoggedIn">
           <ul class="community">
             <li v-for="(c, i) in communities" :key="i">
@@ -95,6 +95,12 @@ onBeforeMount(async () => {
 
 <style scoped>
 @import "./assets/toast.css";
+
+@font-face {
+  font-family: HeyComic;
+  src: url("@/assets/Hey Comic.otf");
+  src: url("./assets/font/Hey Comic.ttf") format("truetype");
+}
 
 .comms {
   font-size: 1.3em;
@@ -116,6 +122,7 @@ onBeforeMount(async () => {
 h1 {
   font-size: 2em;
   margin: 0;
+  font-family: HeyComic;
 }
 
 .title {

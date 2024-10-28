@@ -7,6 +7,7 @@
 
 button.btn-small {
   font-size: 80%;
+  background-color: #8F91A2;
 }
 
 button.button-error {
@@ -14,9 +15,13 @@ button.button-error {
   background: var(--red);
 }
 
+button.pure-button {
+  font-family: HeyComic
+}
+
 a.button {
   color: #212529;
-  background-color: #f1f3f5;
+  background-color: #8F91A2;
   border: 1px solid #dee2e6;
   border-radius: 0.25em;
   padding: 0.375em 0.75em;
@@ -29,4 +34,37 @@ a.button {
   justify-content: center;
   align-items: center;
   gap: 1em;
+}
+
+@font-face {
+  font-family: HeyComic;
+  src: url("@/assets/Hey Comic.otf");
+  src: url("./assets/font/Hey Comic.ttf") format("truetype");
+}
+
+p {
+  font-family: HeyComic
+}
+
+li {
+  font-family: HeyComic
+}
+
+h1 {
+  font-family: HeyComic
+}
+
+h2 {
+  font-family: HeyComic
+}
+
+label {
+  font-family: HeyComic
+}
+button {
+  font-family: HeyComic
+}
+
+legend {
+  font-family: HeyComic
 }
