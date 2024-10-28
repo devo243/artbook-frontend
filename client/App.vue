@@ -98,8 +98,8 @@ onBeforeMount(async () => {
 
 @font-face {
   font-family: HeyComic;
-  src: url("@/assets/Hey Comic.otf");
-  src: url("./assets/font/Hey Comic.ttf") format("truetype");
+  src: url("@/assets/HeyComic.otf");
+  src: url("./assets/font/HeyComic.ttf") format("truetype");
 }
 
 .comms {
