@@ -43,11 +43,12 @@ a.button {
 }
 
 p {
-  font-family: HeyComic
+  font-family: HeyComic;
 }
 
 li {
-  font-family: HeyComic
+  font-family: HeyComic;
+  color: #505A5B;
 }
 
 h1 {

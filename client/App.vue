@@ -115,7 +115,7 @@ onBeforeMount(async () => {
   flex-grow: 1;
   margin: 0 0 0 300px;
   overflow-x: hidden;
-  /* background-color: #BEC5AD; */
+  background-color: #dcedff;
   min-height: 100vh;
 }
 
@@ -123,6 +123,7 @@ h1 {
   font-size: 2em;
   margin: 0;
   font-family: HeyComic;
+  color: #343f3e;
 }
 
 .title {

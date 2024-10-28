@@ -63,7 +63,7 @@ const previewImage = () => {
   padding-top: 50px;
 }
 form {
-  background-color: var(--base-bg);
+  background-color: #ffffff;
   border-radius: 1em;
   display: flex;
   flex-direction: column;
@@ -76,6 +76,7 @@ form {
 textarea {
   font-family: inherit;
   font-size: inherit;
+  background-color: #e7e7e7;
   height: 6em;
   padding: 0.5em;
   border-radius: 4px;

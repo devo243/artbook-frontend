@@ -20,5 +20,6 @@ const { currentUsername, isLoggedIn } = storeToRefs(useUserStore());
 h1 {
   text-align: left;
   padding-left: 2em;
+  color: #505a5b;
 }
 </style>
