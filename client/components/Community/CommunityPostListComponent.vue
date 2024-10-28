@@ -71,9 +71,7 @@ onBeforeMount(async () => {
       </article>
       <hr />
     </div>
-    <p v-if="posts.length === 0">
-      No posts in these community!
-    </p>
+    <p v-if="posts.length === 0">No posts in these community!</p>
   </section>
 </template>
 

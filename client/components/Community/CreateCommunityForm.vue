@@ -37,26 +37,24 @@ const previewImage = () => {
 
 <template>
   <div class="form">
-  <form @submit.prevent="createCommunity(title, description, icon)">
-    <label for="title">Add title!:</label>
-    <textarea id="title" v-model="title" placeholder="Add your title!" required> </textarea>
-    <label for="description">Add Description!:</label>
-    <textarea id="description" v-model="description" placeholder="Add your description!" required> </textarea>
-    <label for="icon">Add Icon!:</label>
-    <textarea id="icon" v-model="icon" placeholder="Add your icon image url!" required @input="previewImage"> </textarea>
-    <label>Preview Icon:</label>
-    <img v-bind:src="icon" v-if="validImg" @error="imageLoadError" />
-    <div v-else class="picture">
-      <img class="default" src="@/assets/images/photo.svg" />
-    </div>
-    <button type="submit" class="pure-button-primary pure-button" :disabled="!validImg">Create Community</button>
-  </form>
-</div>
+    <form @submit.prevent="createCommunity(title, description, icon)">
+      <label for="title">Add title!:</label>
+      <textarea id="title" v-model="title" placeholder="Add your title!" required> </textarea>
+      <label for="description">Add Description!:</label>
+      <textarea id="description" v-model="description" placeholder="Add your description!" required> </textarea>
+      <label for="icon">Add Icon!:</label>
+      <textarea id="icon" v-model="icon" placeholder="Add your icon image url!" required @input="previewImage"> </textarea>
+      <label>Preview Icon:</label>
+      <img v-bind:src="icon" v-if="validImg" @error="imageLoadError" />
+      <div v-else class="picture">
+        <img class="default" src="@/assets/images/photo.svg" />
+      </div>
+      <button type="submit" class="pure-button-primary pure-button" :disabled="!validImg">Create Community</button>
+    </form>
+  </div>
 </template>
 
-
 <style scoped>
-
 .form {
   display: flex;
   justify-content: center;

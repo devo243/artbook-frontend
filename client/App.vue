@@ -141,7 +141,7 @@ a {
   position: fixed;
   overflow-y: scroll;
   border-right: 1px solid grey;
-  background-color: #BEC5AD;
+  background-color: #bec5ad;
 }
 
 .navbar::-webkit-scrollbar {
@@ -172,7 +172,7 @@ hr {
   display: flex;
   padding-left: 10px;
   margin-left: 0.5em;
-  border-color: #3B5249;
-  background-color: #3B5249;
+  border-color: #3b5249;
+  background-color: #3b5249;
 }
 </style>

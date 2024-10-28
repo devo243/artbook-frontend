@@ -84,7 +84,6 @@ const previewImage = () => {
 </template>
 
 <style scoped>
-
 .form {
   display: flex;
   justify-content: center;

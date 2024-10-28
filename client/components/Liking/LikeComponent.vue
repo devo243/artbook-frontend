@@ -90,6 +90,6 @@ img {
 
 button {
   border: 0px;
-  background-color: #BEC5AD;
+  background-color: #bec5ad;
 }
 </style>
