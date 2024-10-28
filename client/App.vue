@@ -96,12 +96,6 @@ onBeforeMount(async () => {
 <style scoped>
 @import "./assets/toast.css";
 
-@font-face {
-  font-family: HeyComic;
-  src: url("@/assets/HeyComic.otf");
-  src: url("./assets/font/HeyComic.ttf") format("truetype");
-}
-
 .comms {
   font-size: 1.3em;
   font-weight: bold;
@@ -122,7 +116,6 @@ onBeforeMount(async () => {
 h1 {
   font-size: 2em;
   margin: 0;
-  font-family: HeyComic;
   color: #343f3e;
 }
 
