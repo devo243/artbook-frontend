@@ -38,11 +38,11 @@ a.button {
 
 @font-face {
   font-family: HeyComic;
-  src: url("/assets/font/heycomic.eot");
-  src: url("/assets/font/heycomic.otf"),
-  url("/assets/font/heycomic.ttf") format("truetype"),
-  url("/assets/font/heycomic.woff") format("woff"),
-  url("/assets/font/heycomic.woff2") format("woff2");
+  src: url("/font/heycomic.eot");
+  src: url("/font/heycomic.otf"),
+  url("/font/heycomic.ttf") format("truetype"),
+  url("/font/heycomic.woff") format("woff"),
+  url("/font/heycomic.woff2") format("woff2");
 
 }
 
