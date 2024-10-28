@@ -38,7 +38,7 @@ a.button {
 
 @font-face {
   font-family: HeyComic;
-  src: url("@/assets/heycomic.otf");
+  src: url("@/assets/font/heycomic.otf");
   src: url("./assets/font/heycomic.ttf") format("truetype");
 }
 
